@@ -18,6 +18,11 @@ $ PORT=8082 ORIGIN_ALLOWED="http://localhost:8080" \
 BUCKET_NAME="<YOUR_BUCKET_NAME>" GOOGLE_ACCESS_ID="<YOUR_SERVICE_ACCOUNT_ID>" \
 PRIVATE_KEY_PATH="<YOUR_OUT_KEY_NAME>" go run ./main.go
 ```
+- `PORT` is backend port which is different with frontend service (:8080).
+- `ORIGIN_ALLOWED` is local host frontend service URL.
+- `BUCKET_NAME` is GCE bucket name.
+- `GOOGLE_ACCESS_ID` is GCP service account id which is email format.
+- `PRIVATE_KEY_PATH` is your service account key which is pem format.
 
 ### Frontend
 ```
