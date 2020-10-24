@@ -10,6 +10,7 @@ package-lock.json
 .app.yaml
 .cors.txt
 key.pem
+*key
 
 # Log files
 npm-debug.log*
