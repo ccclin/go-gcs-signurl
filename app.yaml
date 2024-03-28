@@ -1,4 +1,4 @@
-runtime: go114
+runtime: go122
 
 env: standard
 instance_class: F1
@@ -6,10 +6,10 @@ handlers:
   - url: '/api/v1/.*'
     script: auto
 
-  - url: '/static/(.*)'
-    static_files: "dist/static/\\1"
+  - url: '/assets/(.*)'
+    static_files: "dist/assets/\\1"
     require_matching_file: false
-    upload: 'dist/static/(.*)'
+    upload: 'dist/assets/(.*)'
 
   - url: '/'
     static_files: dist/index.html
@@ -17,7 +17,7 @@ handlers:
     upload: dist/index.html
 
 env_variables:
-  ORIGIN_ALLOWED: "<YOUR_CROS_DOMAIN_URL>" # you need to change it, like https://sign-url.mile.cloud
+  ORIGIN_ALLOWED: "<YOUR_CROS_DOMAIN_URL>" # you need to change it, like https://xxx.xxx.xxx
   BUCKET_NAME: "<YOUR_BUCKET_NAME>"
   GOOGLE_ACCESS_ID: "<YOUR_SERVICE_ACCOUNT_ID>"
   PRIVATE_KEY_PATH: "<YOUR_OUT_KEY_NAME>"

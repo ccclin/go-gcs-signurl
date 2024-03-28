@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -48,7 +47,7 @@ func main() {
 }
 
 func indexHandel(w http.ResponseWriter, r *http.Request) {
-	pkey, _ := ioutil.ReadFile(privateKeyPath)
+	pkey, _ := os.ReadFile(privateKeyPath)
 
 	opts := &storage.SignedURLOptions{
 		GoogleAccessID: googleAccessID,

@@ -1,15 +1,11 @@
-<template>
-  <div id="app">
-    <router-view/>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'app'
-}
+<script setup>
+import { RouterView } from 'vue-router'
 </script>
 
-<style>
-  @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+<template>
+  <RouterView />
+</template>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 </style>
