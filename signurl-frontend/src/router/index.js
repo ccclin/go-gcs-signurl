@@ -1,30 +1,15 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import SignUrlView from '@/views/SignUrlView.vue'
 
-Vue.use(Router)
-
-function view (name) {
-  return function (resolve) {
-    import(`../components/${name}.vue`).then(mod => {
-      resolve(mod)
-    })
-  }
-}
-
-export default new Router({
-  mode: 'history',
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'SignUrl',
-      component: view('SignUrl')
+      name: 'signurl',
+      component: SignUrlView
     }
-  ],
-  scrollBehavior (to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { y: 0 }
-    }
-  }
+  ]
 })
+
+export default router
