@@ -1,6 +1,18 @@
 <template>
   <div>
     <div class="row col">
+      <ul class="collection">
+        <li class="collection-item">
+          <span class="title blue-text text-darken-2">SignURL For GET</span>
+          <div style="width:840px;overflow:auto"><span class="red-text text-darken-4">{{ state.signURL }}</span></div>
+        </li>
+        <li class="collection-item">
+          <span class="title blue-text text-darken-2">SignURL For PUT</span>
+          <div style="width:840px;overflow:auto"><span class="red-text text-darken-4">{{ state.postSignURL }}</span></div>
+        </li>
+      </ul>
+    </div>
+    <div class="row col">
       <video width="840" controls :src="state.signURL"></video>
     </div>
     <div class="row col l12">
@@ -90,3 +102,5 @@ export default defineComponent({
   }
 })
 </script>
+
+<style></style>
