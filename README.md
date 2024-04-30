@@ -4,25 +4,19 @@
 1. create a GCS bucket for this demo
 2. create a GAE service
 3. setup CORS to GCS bucket, you HAVE TO edit <YOUR_GAE_URL> on `cors.txt`
-4. create a service account with roles `Storage Object Creator` and `Storage Object Viewer`
-5. create a service account key which type is `P12`
-6. change key from `pkcs12` to `pem`
-```sh
-openssl pkcs12 -in <YOUR_SERVICE_ACCOUNT_P12> -passin pass:notasecret -out <YOUR_OUT_KEY_NAME> -nodes
-```
+4. create a service account with role `Service Account Token Creator` on GCP project and role `Storage Object Admin` with the GCS bucket for this demo
 
 ## Run on Local
 ### Backend
 ```sh
-PORT=8082 ORIGIN_ALLOWED="http://localhost:5173" \
-BUCKET_NAME="<YOUR_BUCKET_NAME>" GOOGLE_ACCESS_ID="<YOUR_SERVICE_ACCOUNT_ID>" \
-PRIVATE_KEY_PATH="<YOUR_OUT_KEY_NAME>" go run ./main.go
+PORT=8082 \
+ORIGIN_ALLOWED="http://localhost:5173" \
+BUCKET_NAME="<YOUR_BUCKET_NAME>" \
+go run ./main.go
 ```
 - `PORT` is backend port which is different with frontend service (:5173).
 - `ORIGIN_ALLOWED` is local host frontend service URL.
 - `BUCKET_NAME` is GCE bucket name.
-- `GOOGLE_ACCESS_ID` is GCP service account id which is email format.
-- `PRIVATE_KEY_PATH` is your service account key which is pem format.
 
 ### Frontend
 #### Recommended IDE Setup

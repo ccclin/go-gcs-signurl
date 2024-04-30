@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -14,12 +15,10 @@ import (
 )
 
 var (
-	bucketName     = os.Getenv("BUCKET_NAME")
-	googleAccessID = os.Getenv("GOOGLE_ACCESS_ID")
-	privateKeyPath = os.Getenv("PRIVATE_KEY_PATH")
-	originAllowed  = os.Getenv("ORIGIN_ALLOWED")
-	port           = os.Getenv("PORT")
-	fileName       = "demo.mp4"
+	bucketName    = os.Getenv("BUCKET_NAME")
+	originAllowed = os.Getenv("ORIGIN_ALLOWED")
+	port          = os.Getenv("PORT")
+	fileName      = "demo.mp4"
 )
 
 type signURL struct {
@@ -47,29 +46,33 @@ func main() {
 }
 
 func indexHandel(w http.ResponseWriter, r *http.Request) {
-	pkey, _ := os.ReadFile(privateKeyPath)
+	ctx := context.Background()
+	client, err := storage.NewClient(ctx)
+	if err != nil {
+		log.Printf("storage.NewClient err: %+v", err)
+		http.Error(w, "Internal Error", http.StatusInternalServerError)
+		return
+	}
 
 	opts := &storage.SignedURLOptions{
-		GoogleAccessID: googleAccessID,
-		PrivateKey:     pkey,
-		Method:         "GET",
-		Expires:        time.Now().Add(15 * time.Minute),
+		Scheme:  storage.SigningSchemeV4,
+		Method:  "GET",
+		Expires: time.Now().Add(15 * time.Minute),
 	}
 
 	optsPut := &storage.SignedURLOptions{
-		GoogleAccessID: googleAccessID,
-		PrivateKey:     pkey,
-		ContentType:    "video/mp4",
-		Method:         "PUT",
-		Expires:        time.Now().Add(12 * time.Hour),
+		Scheme:      storage.SigningSchemeV4,
+		ContentType: "video/mp4",
+		Method:      "PUT",
+		Expires:     time.Now().Add(12 * time.Hour),
 	}
 
-	url, err := storage.SignedURL(bucketName, fileName, opts)
+	url, err := client.Bucket(bucketName).SignedURL(fileName, opts)
 	if err != nil {
 		log.Printf("err: %+v", err)
 	}
 
-	postURL, err := storage.SignedURL(bucketName, fileName, optsPut)
+	postURL, err := client.Bucket(bucketName).SignedURL(fileName, optsPut)
 	if err != nil {
 		log.Printf("err: %+v", err)
 	}
@@ -79,7 +82,10 @@ func indexHandel(w http.ResponseWriter, r *http.Request) {
 		PostSignURL: postURL,
 	}
 
-	js, _ := json.Marshal(signURL)
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(js)
+	err = json.NewEncoder(w).Encode(&signURL)
+	if err != nil {
+		http.Error(w, "Encoding result to json fail", http.StatusBadRequest)
+		return
+	}
 }

@@ -19,5 +19,5 @@ handlers:
 env_variables:
   ORIGIN_ALLOWED: "<YOUR_CROS_DOMAIN_URL>" # you need to change it, like https://xxx.xxx.xxx
   BUCKET_NAME: "<YOUR_BUCKET_NAME>"
-  GOOGLE_ACCESS_ID: "<YOUR_SERVICE_ACCOUNT_ID>"
-  PRIVATE_KEY_PATH: "<YOUR_OUT_KEY_NAME>"
+
+service_account: <YOUR_SERVICE_ACCOUNT>

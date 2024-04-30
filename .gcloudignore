@@ -24,5 +24,7 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+key.*
+
 # frontend source code
 /signurl-frontend
